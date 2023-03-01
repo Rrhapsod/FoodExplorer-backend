@@ -1,4 +1,4 @@
-class Error {
+export class Error {
   message;
   statusCode;
 
@@ -7,5 +7,3 @@ class Error {
     this.statusCode = statusCode;
   }
 }
-
-export { Error };
