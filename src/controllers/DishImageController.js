@@ -4,29 +4,26 @@ import { Error } from "../utils/Error.js";
 
 export class DishImageController {
   async update(request, response) {
-    const user_id = request.user.id;
-    const avatarFilename = request.file.filename;
+    const { id } = request.params;
+    const imageFilename = request.file.filename;
 
     const diskStorage = new DiskStorage();
 
-    const user = await knex("users").where({ id: user_id }).first();
+    const dish = await knex("dishes").where({ id }).first();
 
-    if (!user) {
-      throw new Error(
-        "Somente usuários autenticados podem alterar a foto",
-        401
-      );
+    if (!dish) {
+      throw new Error("Prato não encontrado!", 401);
     }
 
-    if (user.avatar) {
-      await diskStorage.deleteFile(user.avatar);
+    if (dish.image) {
+      await diskStorage.deleteFile(user.image);
     }
 
-    const filename = await diskStorage.saveFile(avatarFilename);
-    user.avatar = filename;
+    const filename = await diskStorage.saveFile(imageFilename);
+    dish.image = filename;
 
-    await knex("users").update(user).where({ id: user_id });
+    await knex("dishes").update(dish).where({ id });
 
-    return response.json(user);
+    return response.json(dish);
   }
 }

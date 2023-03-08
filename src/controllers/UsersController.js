@@ -3,7 +3,7 @@ import bcryptjs from "bcryptjs";
 import knex from "../database/knex/index.js";
 import { Error } from "../utils/Error.js";
 
-const { hash, compare } = bcryptjs;
+const { hash } = bcryptjs;
 
 export class UsersController {
   async create(request, response) {
