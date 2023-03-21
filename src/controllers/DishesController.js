@@ -4,7 +4,7 @@ export class DishesController {
   async create(request, response) {
     const { name, category, description, price, ingredients } = request.body;
 
-    const dish_id = await knex("dishes").insert({
+    const [dish_id] = await knex("dishes").insert({
       name,
       category,
       description,
