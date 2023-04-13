@@ -46,9 +46,17 @@ export class DishesController {
   }
 
   async index(request, response) {
-    const { category } = request.query;
+    const { category, name } = request.query;
 
-    const dish = await knex("dishes").where({ category }).orderBy("name");
+    let dish = {};
+
+    if (name) {
+      dish = await knex("dishes").whereLike("dishes.name", `%${name}%`);
+    } else if (category) {
+      dish = await knex("dishes").where({ category }).orderBy("name");
+    } else {
+      dish = await knex("dishes");
+    }
 
     return response.json({ dish });
   }
