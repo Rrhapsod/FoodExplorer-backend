@@ -16,7 +16,7 @@ export class DishImageController {
     }
 
     if (dish.image) {
-      await diskStorage.deleteFile(user.image);
+      await diskStorage.deleteFile(dish.image);
     }
 
     const filename = await diskStorage.saveFile(imageFilename);
